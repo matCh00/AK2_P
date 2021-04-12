@@ -6,69 +6,76 @@ STDIN = 0
 STDOUT = 1
 EXIT_SUCCESS = 0
 
-LENGTH = 200
+
+.section .data
+msg1: .ascii "num1: "
+msg1_len = . - msg1
+msg2: .ascii "num2: "
+msg2_len = . - msg2
+msg3: .ascii "sum: "
+msg3_len = . - msg3
+
+
+.section .bss
+.comm res, 5
+.comm num1, 5
+.comm num2, 5
+
+
+.section .text
+
 
 .global _start
 
 
-.data
-echo: .space LENGTH
-echo_len = . - echo
-echo2: .space LENGTH
-echo2_len = . - echo2
-
-
-.text
-msg: .ascii "enter a: "
-msg_len = . - msg
-msg2: .ascii "enter b: "
-msg2_len = . - msg2
-msg3: .ascii "a + b: "
-msg3_len = . - msg3
-
-
 _start:
-/* pierwszy komunikat */
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx
-mov $msg, %ecx
-mov $msg_len, %edx
+mov $msg1, %ecx
+mov $msg1_len, %edx
 int $SYSCALL32
 
-/* wpisz pierwszą liczbę */
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
-mov $echo, %ecx
-mov $echo_len, %edx
+mov $num1, %ecx
+mov $5, %edx
 int $SYSCALL32
 
-/* drugi komunikat */
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx
 mov $msg2, %ecx
 mov $msg2_len, %edx
 int $SYSCALL32
 
-/* wpisz drugą liczbę */
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
-mov $echo2, %ecx
-mov $echo2_len, %edx
+mov $num2, %ecx
+mov $5, %edx
 int $SYSCALL32
 
 
+mov (num1), %eax
+sub $'0', %eax
+mov (num2), %ebx
+sub $'0', %ebx
+add %ebx, %eax
+add $'0', %eax
+mov %eax, (res)
 
 
-
-/* końcowy komunikat */
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx
 mov $msg3, %ecx
 mov $msg3_len, %edx
 int $SYSCALL32
 
+mov $SYSWRITE, %eax
+mov $STDOUT, %ebx
+mov $res, %ecx
+mov $5, %edx
+int $SYSCALL32
 
-/* koniec programu */
+
 mov $SYSEXIT32, %eax
 mov $EXIT_SUCCESS, %ebx
 int $SYSCALL32
