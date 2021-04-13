@@ -12,7 +12,7 @@ msg1: .ascii "num1: "
 msg1_len = . - msg1
 msg2: .ascii "num2: "
 msg2_len = . - msg2
-msg3: .ascii "sum: "
+msg3: .ascii "sub: "
 msg3_len = . - msg3
 endl: .byte 13, 10
 
@@ -59,7 +59,7 @@ mov (num1), %eax
 sub $'0', %eax
 mov (num2), %ebx
 sub $'0', %ebx
-add %ebx, %eax
+sub %ebx, %eax
 add $'0', %eax
 mov %eax, (res)
 
