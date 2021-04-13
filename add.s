@@ -62,6 +62,7 @@ sub $'0', %ebx
 add %ebx, %eax
 add $'0', %eax
 mov %eax, (res)
+int $SYSCALL32
 
 
 mov $SYSWRITE, %eax

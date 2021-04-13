@@ -12,15 +12,15 @@ msg1: .ascii "num1: "
 msg1_len = . - msg1
 msg2: .ascii "num2: "
 msg2_len = . - msg2
-msg3: .ascii "sub: "
+msg3: .ascii "mul: "
 msg3_len = . - msg3
 endl: .byte 13, 10
 
 
 .section .bss
-.comm res, 5
-.comm num1, 5
-.comm num2, 5
+num1: .space 8
+num2: .space 8
+res: .space 8
 
 
 .section .text
@@ -55,15 +55,41 @@ mov $5, %edx
 int $SYSCALL32
 
 
-mov (num1), %eax
-sub $'0', %eax
-mov (num2), %ebx
-sub $'0', %ebx
-sub %ebx, %eax
-add $'0', %eax
-mov %eax, (res)
-int $SYSCALL32
+/* multiplication */
+mov $0, %ebx /*iterator dużej pętli*/
 
+mult_b:
+cmpl $5, %ebx /*liczba cyfr num1*/
+jz end_b
+mov $0, %ecx
+mov $0, %esi
+
+mult_s:
+mov $0, %edi
+cmpl $5, %ecx /*liczba cyfr num2*/
+jz end_s
+mov num1(,%ebx,1), %eax
+mov num2(,%ecx,1), %edx
+mul %edx  /*założenie że 2 argument jest w eax*/
+addl %ebx, %ecx
+addl res(,%ecx,1), %eax
+
+mov %eax, res(,%ecx,1)
+incl %ecx
+adcl res(,%ecx,1), %edx
+adcl $0, %edi
+adcl %esi, %edx
+adcl $0, %edi
+mov %edi, %esi
+mov %edx, res(,%ecx,1)
+sub %ebx, %ecx
+jmp mult_s
+
+end_s:
+incl %ebx
+jmp mult_b
+
+end_b:
 
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx

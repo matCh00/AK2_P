@@ -12,15 +12,15 @@ msg1: .ascii "num1: "
 msg1_len = . - msg1
 msg2: .ascii "num2: "
 msg2_len = . - msg2
-msg3: .ascii "sub: "
+msg3: .ascii "div: "
 msg3_len = . - msg3
 endl: .byte 13, 10
 
 
 .section .bss
-.comm res, 5
-.comm num1, 5
-.comm num2, 5
+.comm res, 2
+.comm num1, 2
+.comm num2, 2
 
 
 .section .text
@@ -39,7 +39,7 @@ int $SYSCALL32
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
 mov $num1, %ecx
-mov $5, %edx
+mov $2, %edx
 int $SYSCALL32
 
 mov $SYSWRITE, %eax
@@ -51,15 +51,16 @@ int $SYSCALL32
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
 mov $num2, %ecx
-mov $5, %edx
+mov $2, %edx
 int $SYSCALL32
 
-
+/*doesn't work*/
+mov $0, %edx
 mov (num1), %eax
 sub $'0', %eax
 mov (num2), %ebx
 sub $'0', %ebx
-sub %ebx, %eax
+div %ebx
 add $'0', %eax
 mov %eax, (res)
 int $SYSCALL32
@@ -74,7 +75,7 @@ int $SYSCALL32
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx
 mov $res, %ecx
-mov $5, %edx
+mov $2, %edx
 int $SYSCALL32
 
 mov $SYSWRITE, %eax
