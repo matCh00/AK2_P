@@ -12,15 +12,15 @@ msg1: .ascii "num1: "
 msg1_len = . - msg1
 msg2: .ascii "num2: "
 msg2_len = . - msg2
-msg3: .ascii "mul: "
+msg3: .ascii "sum: "
 msg3_len = . - msg3
 endl: .byte 13, 10
 
 
 .section .bss
-.comm res, 4
-.comm num1, 2
-.comm num2, 2
+.comm res, 5
+.comm num1, 5
+.comm num2, 5
 
 
 .section .text
@@ -39,7 +39,7 @@ int $SYSCALL32
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
 mov $num1, %ecx
-mov $2, %edx
+mov $5, %edx
 int $SYSCALL32
 
 mov $SYSWRITE, %eax
@@ -51,18 +51,38 @@ int $SYSCALL32
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
 mov $num2, %ecx
-mov $2, %edx
+mov $5, %edx
 int $SYSCALL32
 
 
-mov (num1), %eax
-sub $'0', %eax
-mov (num2), %ebx
+
+mov $1, %edx /* licznik do pętli - max liczba cyfr */
+clc
+pushf
+
+odejmowanie:
+decl %edx
+popf
+
+mov num1 (,%edx,8), %eax
+mov num2 (,%edx,8), %ebx
+sub %eax, %ebx
 sub $'0', %ebx
-mul %ebx
-add $'0', %eax
-mov %eax, (res)
-int $SYSCALL32
+mov %ebx, (res)
+pushf
+
+cmp $0, %edx
+jne odejmowanie
+
+popf
+mov $0, %eax
+adc $0, %eax
+
+cmp $1, %eax
+jne end
+
+
+end:
 
 
 mov $SYSWRITE, %eax
@@ -74,7 +94,7 @@ int $SYSCALL32
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx
 mov $res, %ecx
-mov $2, %edx
+mov $5, %edx
 int $SYSCALL32
 
 mov $SYSWRITE, %eax

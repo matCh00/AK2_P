@@ -1,10 +1,28 @@
-all: add sub mul div
+all: add sub mul div addition subtraction multiplication
 
 add: add.o
 	ld add.o -o add
 
 add.o: add.s
 	as add.s -o add.o
+
+addition: addition.o
+	ld addition.o -o addition
+
+addition.o: addition.s
+	as addition.s -o addition.o
+
+subtraction: subtraction.o
+	ld subtraction.o -o subtraction
+
+subtraction.o: subtraction.s
+	as subtraction.s -o subtraction.o
+
+multiplication: multiplication.o
+	ld multiplication.o -o multiplication
+
+multiplication.o: multiplication.s
+	as multiplication.s -o multiplication.o
 
 sub: sub.o
 	ld sub.o -o	sub
@@ -29,3 +47,6 @@ clean:
 	rm sub.o sub
 	rm mul.o mul
 	rm div.o div
+	rm addition.o addition
+	rm subtraction.o subtraction
+	rm multiplication.o multiplication

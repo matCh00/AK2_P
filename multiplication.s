@@ -18,9 +18,9 @@ endl: .byte 13, 10
 
 
 .section .bss
-num1: .space 8
-num2: .space 8
-res: .space 8
+.comm res, 5
+.comm num1, 5
+.comm num2, 5
 
 
 .section .text
@@ -59,7 +59,7 @@ int $SYSCALL32
 mov $0, %ebx /*iterator dużej pętli*/
 
 mult_b:
-cmpl $5, %ebx /*liczba cyfr num1*/
+cmpl $1, %ebx /*liczba cyfr num1*/
 jz end_b
 mov $0, %ecx
 mov $0, %esi
@@ -68,20 +68,22 @@ mult_s:
 mov $0, %edi
 cmpl $5, %ecx /*liczba cyfr num2*/
 jz end_s
-mov num1(,%ebx,1), %eax
-mov num2(,%ecx,1), %edx
+mov num1(,%ebx,8), %eax
+sub $'0', %eax
+mov num2(,%ecx,8), %edx
+sub $'0', %edx
 mul %edx  /*założenie że 2 argument jest w eax*/
 addl %ebx, %ecx
-addl res(,%ecx,1), %eax
+addl res(,%ecx,8), %eax
 
-mov %eax, res(,%ecx,1)
+mov %eax, res(,%ecx,8)
 incl %ecx
-adcl res(,%ecx,1), %edx
+adcl res(,%ecx,8), %edx
 adcl $0, %edi
 adcl %esi, %edx
 adcl $0, %edi
 mov %edi, %esi
-mov %edx, res(,%ecx,1)
+mov %edx, res(,%ecx,8)
 sub %ebx, %ecx
 jmp mult_s
 
