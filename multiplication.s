@@ -55,36 +55,33 @@ mov $5, %edx
 int $SYSCALL32
 
 
-/* multiplication */
-mov $0, %ebx /*iterator dużej pętli*/
+# multiplication
+mov $0, %ebx # iterator dużej pętli
 
 mult_b:
-cmpl $1, %ebx /*liczba cyfr num1*/
+cmpl $5, %ebx # liczba cyfr num1
 jz end_b
-mov $0, %ecx
-mov $0, %esi
+movl $0, %ecx
+movl $0, %esi
 
 mult_s:
-mov $0, %edi
-cmpl $5, %ecx /*liczba cyfr num2*/
+movl $0, %edi
+cmpl $5, %ecx # liczba cyfr num2
 jz end_s
-mov num1(,%ebx,8), %eax
-sub $'0', %eax
-mov num2(,%ecx,8), %edx
-sub $'0', %edx
-mul %edx  /*założenie że 2 argument jest w eax*/
+movl num1(,%ebx,4), %eax
+movl num2(,%ecx,4), %edx
+mull %edx  # założenie że 2 argument jest w eax
 addl %ebx, %ecx
-addl res(,%ecx,8), %eax
-
-mov %eax, res(,%ecx,8)
+addl res(,%ecx,4), %eax
+movl %eax, res(,%ecx,4)
 incl %ecx
-adcl res(,%ecx,8), %edx
+adcl res(,%ecx,4), %edx
 adcl $0, %edi
 adcl %esi, %edx
 adcl $0, %edi
-mov %edi, %esi
-mov %edx, res(,%ecx,8)
-sub %ebx, %ecx
+movl %edi, %esi
+movl %edx, res(,%ecx,4)
+subl %ebx, %ecx
 jmp mult_s
 
 end_s:
@@ -92,6 +89,7 @@ incl %ebx
 jmp mult_b
 
 end_b:
+
 
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx

@@ -18,9 +18,9 @@ endl: .byte 13, 10
 
 
 .section .bss
-.comm res, 5
-.comm num1, 5
-.comm num2, 5
+.comm res, 51
+.comm num1, 50
+.comm num2, 50
 
 
 .section .text
@@ -39,7 +39,7 @@ int $SYSCALL32
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
 mov $num1, %ecx
-mov $5, %edx
+mov $50, %edx
 int $SYSCALL32
 
 mov $SYSWRITE, %eax
@@ -51,12 +51,12 @@ int $SYSCALL32
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
 mov $num2, %ecx
-mov $5, %edx
+mov $50, %edx
 int $SYSCALL32
 
 
 
-mov $10, %edx /* licznik do pętli - max liczba cyfr */
+mov $50, %edx # licznik do pętli - max liczba cyfr
 clc
 pushf
 
@@ -64,8 +64,8 @@ dodawanie:
 decl %edx
 popf
 
-mov num1 (,%edx,8), %eax
-mov num2 (,%edx,8), %ebx
+mov num1 (,%edx,4), %eax
+mov num2 (,%edx,4), %ebx
 add %eax, %ebx
 sub $'0', %ebx
 mov %ebx, (res)
@@ -94,7 +94,7 @@ int $SYSCALL32
 mov $SYSWRITE, %eax
 mov $STDOUT, %ebx
 mov $res, %ecx
-mov $5, %edx
+mov $51, %edx
 int $SYSCALL32
 
 mov $SYSWRITE, %eax

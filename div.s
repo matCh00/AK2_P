@@ -54,14 +54,14 @@ mov $num2, %ecx
 mov $2, %edx
 int $SYSCALL32
 
-/*doesn't work*/
+# doesn't work
 mov $0, %edx
 mov (num1), %eax
-sub $'0', %eax
-mov (num2), %ebx
-sub $'0', %ebx
-div %ebx
-add $'0', %eax
+sub $0x30, %eax
+mov (num2), %ecx
+sub $0x30, %ecx
+div %ecx
+add $0x30, %eax
 mov %eax, (res)
 int $SYSCALL32
 

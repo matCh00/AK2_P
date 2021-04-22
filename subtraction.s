@@ -56,7 +56,7 @@ int $SYSCALL32
 
 
 
-mov $1, %edx /* licznik do pętli - max liczba cyfr */
+mov $1, %edx # licznik do pętli - max liczba cyfr
 clc
 pushf
 
