@@ -1,10 +1,12 @@
 all: add sub mul div addition subtraction multiplication
 
+
 add: add.o
-	ld add.o -o add
+	ld -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -o add -lc add.o
 
 add.o: add.s
-	as add.s -o add.o
+	as --32 -o add.o add.s
+
 
 addition: addition.o
 	ld addition.o -o addition

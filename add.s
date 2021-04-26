@@ -8,7 +8,7 @@ EXIT_SUCCESS = 0
 
 
 .section .data
-msg1: .ascii "num1: "
+msg1: .ascii "num1: \n\0"
 msg1_len = . - msg1
 msg2: .ascii "num2: "
 msg2_len = . - msg2
@@ -30,11 +30,8 @@ endl: .byte 13, 10
 
 
 _start:
-mov $SYSWRITE, %eax
-mov $STDOUT, %ebx
-mov $msg1, %ecx
-mov $msg1_len, %edx
-int $SYSCALL32
+pushl $msg1
+call printf
 
 mov $SYSREAD, %eax
 mov $STDIN, %ebx
