@@ -1,4 +1,4 @@
-all: add sub mul div addition subtraction multiplication
+all: calculator
 
 
 add: add.o
@@ -6,6 +6,12 @@ add: add.o
 
 add.o: add.s
 	as --32 -o add.o add.s
+
+
+calculator: calculator.c
+	gcc -m32 calculator.c -o calculator
+
+
 
 
 addition: addition.o
@@ -45,10 +51,4 @@ div.o: div.s
 	as div.s -o div.o
 
 clean:
-	rm add.o add
-	rm sub.o sub
-	rm mul.o mul
-	rm div.o div
-	rm addition.o addition
-	rm subtraction.o subtraction
-	rm multiplication.o multiplication
+	rm calculator
