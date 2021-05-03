@@ -1,5 +1,4 @@
 .data
-start_msg: .ascii "Podaj dwie liczby, znak('+' '-' '*' '/') oraz sposob zaokraglania(c-cut, u-up, d-down, n-nearest): \n\0"
 result: .ascii "Wynik: %f\n\0"
 div_zero_msg: .ascii "Dzielenie przez zero\n\0"
 error_msg: .ascii "Blad\n\0"
@@ -23,9 +22,6 @@ round_nearest: .short 0x03F
 
 
 calc:
-pushl $start_msg
-call printf
-
 pushl $input4
 pushl $input3
 pushl $input1
@@ -135,4 +131,5 @@ jmp end
 
 
 end:   # end of program
+leave
 ret
