@@ -3,6 +3,7 @@ result: .ascii "Wynik: %f\n\0"
 div_zero_msg: .ascii "Dzielenie przez zero\n\0"
 error_msg: .ascii "Blad\n\0"
 scanf_temp: .ascii "%f %f %c %c"
+
 round_cut: .short 0xC3F
 round_up: .short 0x83F
 round_down: .short 0x43F
@@ -131,5 +132,4 @@ jmp end
 
 
 end:   # end of program
-leave
 ret

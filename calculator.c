@@ -8,5 +8,9 @@ int main() {
 
   calc();
 
+  //Segmentation fault (core dumped) after function
+
+  //printf("Koniec\n");
+
   return 0;
 }
