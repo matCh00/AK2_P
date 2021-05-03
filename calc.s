@@ -3,7 +3,6 @@ result: .ascii "Wynik: %f\n\0"
 div_zero_msg: .ascii "Dzielenie przez zero\n\0"
 error_msg: .ascii "Blad\n\0"
 scanf_temp: .ascii "%f %f %c %c"
-
 round_cut: .short 0xC3F
 round_up: .short 0x83F
 round_down: .short 0x43F
@@ -20,7 +19,6 @@ round_nearest: .short 0x03F
 .globl calc
 
 .type calc @function
-
 
 calc:
 pushl $input4
@@ -132,4 +130,6 @@ jmp end
 
 
 end:   # end of program
-ret
+mov $1, %eax
+mov $0, %ebx
+int $0x80

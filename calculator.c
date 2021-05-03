@@ -1,8 +1,10 @@
 #include <stdio.h>
 
-void calc();
+extern void calc();
 
 int main() {
+
+  printf("Projekt AK2 - Mateusz Chalik\n\n");
 
   printf("Podaj dwie liczby typu float, znak('+' '-' '*' '/') oraz sposob zaokraglania(c-cut, u-up, d-down, n-nearest): \n");
 
