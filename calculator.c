@@ -1,12 +1,13 @@
 #include <stdio.h>
 
-int main()
-{
-  int temp;
+void calc();
 
-  scanf("%d", &temp);
+int main() {
 
-  printf("wczytana zmienna: %d", temp);
+
+  calc();
+
+  printf("to jest program c");
 
   return 0;
 }
