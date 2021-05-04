@@ -17,13 +17,12 @@ round_nearest: .short 0x03F
 .text
 
 .globl calc
-
 .type calc, @function
 
 calc:
 pushl %ebp       # preserve previous frame pointer
 movl %esp, %ebp  # set new frame pointer for function
-#subl $4, %esp    # make space on stack for local variable
+#subl $10, %esp    # make space on stack for local variable
 
 pushl $input4
 pushl $input3
@@ -134,6 +133,6 @@ jmp end
 
 
 end:             # end of function
-movl %ebp, %esp  # delocate local variables
+#movl %ebp, %esp  # delocate local variables
 pop %ebp         # restore previous frame pointer
 ret
