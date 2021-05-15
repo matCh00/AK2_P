@@ -17,14 +17,14 @@ double result = 0.0f;
 
 int main() {
 
-  printf("Projekt AK2 - Mateusz Chalik\n\n");
+  printf("Projekt AK2 - Mateusz Chalik");
 
   int key = 0;
 
 
-  while(true) {
+  while(1) {
 
-      printf("\n");
+      printf("\n\n");
       printf("Dostepne opcje:\n");
       printf("0. Wyjscie\n");
       printf("1. Dodawanie\n");
@@ -41,7 +41,7 @@ int main() {
         break;
 
       // wprowadzenie liczb
-      printf("(Dla pierwiastka i sinusa rozpatrywane jest a)\n");
+      printf("\n(Dla pierwiastka i sinusa rozpatrywane jest a)\n\n");
       printf("Wpisz a: ");
       scanf("%lf", &a);
       printf("Wpisz b: ");

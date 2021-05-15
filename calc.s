@@ -1,185 +1,101 @@
-.data
-result: .ascii "Wynik: %f\n\0"
-div_zero_msg: .ascii "Dzielenie przez zero\n\0"
-error_msg: .ascii "Blad\n\0"
-check_msg: .ascii "Wcisnij 'x' aby zakonczyc\n\0"
-scanf_temp: .ascii "%f %f %c %c"
-scanf_temp2: .ascii "%c"
-round_cut: .short 0xC3F
-round_up: .short 0x83F
-round_down: .short 0x43F
-round_nearest: .short 0x03F
-
-.bss
-.lcomm input1, 32
-.lcomm input2, 32
-.lcomm input3, 8
-.lcomm input4, 8
-.lcomm input5, 8
-
-.text
-
-.globl calc
-.type calc, @function
+.section .text
 
 
-calc:
-pushl %ebp       # preserve previous frame pointer
-movl %esp, %ebp  # set new frame pointer for function
-jmp start
-
-
-start:
-pushl $input4
-pushl $input3
-pushl $input1
-pushl $input2
-pushl $scanf_temp
-call scanf
-
-
-movl $input3, %eax
-mov (%eax), %bl
-cmpb $'+', %bl
-je addition
-cmpb $'-', %bl
-je subtraction
-cmpb $'*', %bl
-je multiplication
-cmpb $'/', %bl
-je division
-cmpb $'^', %bl
-je power
-jmp error
-
-
-
+.global addition
 addition:
-fld input1      # load a float
-fld input2      # load a float
-faddp           # add 2 floats
-jmp round
+    # prolog
+    pushl %ebp
+    movl %esp, %ebp
+
+    # funkcja
+    fldl 8(%ebp)
+    fldl 16(%ebp)
+    faddp
+
+    #epilog
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
 
+.global subtraction
 subtraction:
-fld input1      # load a float
-fld input2      # load a float
-fsubp           # subtract 2 floats
-jmp round
+    # prolog
+    pushl %ebp
+    movl %esp, %ebp
+
+    # funkcja
+    fldl 16(%ebp)
+    fldl 8(%ebp)
+    fsubp
+
+    #epilog
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
 
+.global multiplication
 multiplication:
-fld input1      # load a float
-fld input2      # load a float
-fmulp           # multiply 2 floats
-jmp round
+    # prolog
+    pushl %ebp
+    movl %esp, %ebp
+
+    # funkcja
+    fldl 8(%ebp)
+    fldl 16(%ebp)
+    fmulp
+
+    #epilog
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
 
+.global division
 division:
-fld input1      # load a float
-ftst            # compare to 0
-fnstsw %ax      # store float without checking error condition
-fwait           # wait for float
-sahf            # store ah into flags
-jpe error
-ja second_part
-jb second_part
-jz zero
+    # prolog
+    pushl %ebp
+    movl %esp, %ebp
 
-second_part:
-fld input2      # load a float
-fdivp           # divide 2 floats
-jmp round
+    # funkcja
+    fldl 16(%ebp)
+    fldl 8(%ebp)
+    fdivp
 
+    #epilog
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
 
-power:
-movl $input1, %esp
-movl $input2, %eax
-mov (%eax), %bl
+.global square_root
+square_root:
+    # prolog
+    pushl %ebp
+    movl %esp, %ebp
 
-power_loop1:
-cmpb $0, %bl
-jbe round
-jmp power_loop2
+    # funkcja
+    fldl 8(%ebp)
+    fsqrt
 
-power_loop2:
-fld (%esp)
-fld input1
-fmulp
-subb $1, %bl
-fstpl (%esp)
-jmp power_loop1
+    #epilog
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
 
+.global sinus
+sinus:
+    # prolog
+    pushl %ebp
+    movl %esp, %ebp
 
-round:
-movl $input4, %eax   # input4
-mov (%eax), %bl
-cmpb $'c', %bl
-je round_c
-cmpb $'u', %bl
-je round_u
-cmpb $'d', %bl
-je round_d
-cmpb $'n', %bl
-je round_n
-jmp error
+    # funkcja
+    fldl 8(%ebp)
+    fsin
 
-
-round_c:
-fldcw round_cut      # load float to control word
-jmp save
-
-round_u:
-fldcw round_up       # load float to control word
-jmp save
-
-round_d:
-fldcw round_down     # load float to control word
-jmp save
-
-round_n:
-fldcw round_nearest  # load float to control word
-jmp save
-
-
-
-save:
-fstpl (%esp)    # store the value
-pushl $result # push result
-call printf   # and print it
-pushl $0
-jmp end
-#jmp checking
-
-
-#checking:
-#pushl $check_msg
-#call printf
-#pushl $input5
-#pushl $scanf_temp2
-#call scanf
-#movl $input5, %eax
-#mov (%eax), %bl
-#cmpb $'x', %bl
-#je end
-#jmp start
-
-
-zero:
-pushl $div_zero_msg   # dividing by 0 msg
-call printf
-jmp end
-
-
-error:
-pushl $error_msg   # error msg
-call printf
-jmp end
-
-
-end:             # end of function
-movl %ebp, %esp  # delocate local variables
-pop %ebp         # restore previous frame pointer
-ret
+    #epilog
+    movl %ebp, %esp
+    popl %ebp
+    ret
