@@ -2,6 +2,7 @@
 result: .ascii "Wynik: %f\n\0"
 div_zero_msg: .ascii "Dzielenie przez zero\n\0"
 error_msg: .ascii "Blad\n\0"
+check_msg: .ascii "Wcisnij 'x' aby zakonczyc\n\0"
 scanf_temp: .ascii "%f %f %c %c"
 scanf_temp2: .ascii "%c"
 round_cut: .short 0xC3F
@@ -21,10 +22,10 @@ round_nearest: .short 0x03F
 .globl calc
 .type calc, @function
 
+
 calc:
 pushl %ebp       # preserve previous frame pointer
 movl %esp, %ebp  # set new frame pointer for function
-#subl $10, %esp    # make space on stack for local variable
 jmp start
 
 
@@ -36,6 +37,7 @@ pushl $input2
 pushl $scanf_temp
 call scanf
 
+
 movl $input3, %eax
 mov (%eax), %bl
 cmpb $'+', %bl
@@ -46,7 +48,10 @@ cmpb $'*', %bl
 je multiplication
 cmpb $'/', %bl
 je division
+cmpb $'^', %bl
+je power
 jmp error
+
 
 
 addition:
@@ -87,6 +92,27 @@ fdivp           # divide 2 floats
 jmp round
 
 
+
+power:
+movl $input1, %esp
+movl $input2, %eax
+mov (%eax), %bl
+
+power_loop1:
+cmpb $0, %bl
+jbe round
+jmp power_loop2
+
+power_loop2:
+fld (%esp)
+fld input1
+fmulp
+subb $1, %bl
+fstpl (%esp)
+jmp power_loop1
+
+
+
 round:
 movl $input4, %eax   # input4
 mov (%eax), %bl
@@ -118,28 +144,34 @@ fldcw round_nearest  # load float to control word
 jmp save
 
 
+
 save:
 fstpl (%esp)    # store the value
 pushl $result # push result
 call printf   # and print it
 pushl $0
-jmp checking
+jmp end
+#jmp checking
 
 
-checking:
-pushl $input5
-pushl $scanf_temp2
-call scanf
-movl $input5, %eax
-mov (%eax), %bl
-cmpb $'x', %bl
-je end
-jmp start
+#checking:
+#pushl $check_msg
+#call printf
+#pushl $input5
+#pushl $scanf_temp2
+#call scanf
+#movl $input5, %eax
+#mov (%eax), %bl
+#cmpb $'x', %bl
+#je end
+#jmp start
+
 
 zero:
 pushl $div_zero_msg   # dividing by 0 msg
 call printf
 jmp end
+
 
 error:
 pushl $error_msg   # error msg
