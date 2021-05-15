@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-extern void calc();
+void calc();
 
 int main() {
 
@@ -8,21 +8,15 @@ int main() {
 
   printf("Podaj dwie liczby typu float, znak('+' '-' '*' '/') oraz sposob zaokraglania(c-cut, u-up, d-down, n-nearest): \n");
 
-  for (int i=0; i<2; i++){
-    calc();
-    printf("\n");
+  char key;
+  scanf("%c", &key);
+
+  switch(key){
+    case'1': calc(); break;
+    case'2': calc(); break;
+    case'3': calc(); break;
+    case'4': calc(); break;
   }
-
-  //char key = 't';
-  //while (key != 'x'){
-  //  calc();
-  //  scanf("%c", &key);
-  //}
-
-
-  //Segmentation fault (core dumped) after function
-
-  //printf("Koniec\n");
 
   return 0;
 }

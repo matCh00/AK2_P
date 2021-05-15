@@ -3,6 +3,7 @@ result: .ascii "Wynik: %f\n\0"
 div_zero_msg: .ascii "Dzielenie przez zero\n\0"
 error_msg: .ascii "Blad\n\0"
 scanf_temp: .ascii "%f %f %c %c"
+scanf_temp2: .ascii "%c"
 round_cut: .short 0xC3F
 round_up: .short 0x83F
 round_down: .short 0x43F
@@ -13,6 +14,7 @@ round_nearest: .short 0x03F
 .lcomm input2, 32
 .lcomm input3, 8
 .lcomm input4, 8
+.lcomm input5, 8
 
 .text
 
@@ -23,7 +25,10 @@ calc:
 pushl %ebp       # preserve previous frame pointer
 movl %esp, %ebp  # set new frame pointer for function
 #subl $10, %esp    # make space on stack for local variable
+jmp start
 
+
+start:
 pushl $input4
 pushl $input3
 pushl $input1
@@ -118,8 +123,18 @@ fstpl (%esp)    # store the value
 pushl $result # push result
 call printf   # and print it
 pushl $0
-jmp end
+jmp checking
 
+
+checking:
+pushl $input5
+pushl $scanf_temp2
+call scanf
+movl $input5, %eax
+mov (%eax), %bl
+cmpb $'x', %bl
+je end
+jmp start
 
 zero:
 pushl $div_zero_msg   # dividing by 0 msg
@@ -133,6 +148,6 @@ jmp end
 
 
 end:             # end of function
-#movl %ebp, %esp  # delocate local variables
+movl %ebp, %esp  # delocate local variables
 pop %ebp         # restore previous frame pointer
 ret
