@@ -9,6 +9,10 @@ double division(double a, double b);
 double square_root(double a);
 double sinus(double a);
 
+double a = 0.0f;
+double b = 0.0f;
+double result = 0.0f;
+
 
 int main() {
 
