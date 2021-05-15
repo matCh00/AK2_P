@@ -1,101 +1,181 @@
-.section .text
+.data
+round_cut: .short 0xC3F
+round_up: .short 0x83F
+round_down: .short 0x43F
+round_nearest: .short 0x03F
+
+
+.text
 
 
 .global addition
 addition:
-    # prolog
+    # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
 
-    # funkcja
+    # dodawanie
     fldl 8(%ebp)
     fldl 16(%ebp)
     faddp
 
-    #epilog
-    movl %ebp, %esp
-    popl %ebp
-    ret
+    # wybranie zaokraglenia
+    cmpl $1, 24(%ebp)
+    je round_c
+    cmpl $2, 24(%ebp)
+    je round_u
+    cmpl $3, 24(%ebp)
+    je round_d
+    cmpl $4, 24(%ebp)
+    je round_n
+
 
 
 .global subtraction
 subtraction:
-    # prolog
+    # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
 
-    # funkcja
+    # odejmowanie
     fldl 16(%ebp)
     fldl 8(%ebp)
     fsubp
 
-    #epilog
-    movl %ebp, %esp
-    popl %ebp
-    ret
+    # wybranie zaokraglenia
+    cmpl $1, 24(%ebp)
+    je round_c
+    cmpl $2, 24(%ebp)
+    je round_u
+    cmpl $3, 24(%ebp)
+    je round_d
+    cmpl $4, 24(%ebp)
+    je round_n
+
 
 
 .global multiplication
 multiplication:
-    # prolog
+    # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
 
-    # funkcja
+    # mnozenie
     fldl 8(%ebp)
     fldl 16(%ebp)
     fmulp
 
-    #epilog
-    movl %ebp, %esp
-    popl %ebp
-    ret
+    # wybranie zaokraglenia
+    cmpl $1, 24(%ebp)
+    je round_c
+    cmpl $2, 24(%ebp)
+    je round_u
+    cmpl $3, 24(%ebp)
+    je round_d
+    cmpl $4, 24(%ebp)
+    je round_n
+
 
 
 .global division
 division:
-    # prolog
+    # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
 
-    # funkcja
+    # dzielenie
     fldl 16(%ebp)
     fldl 8(%ebp)
     fdivp
 
-    #epilog
-    movl %ebp, %esp
-    popl %ebp
-    ret
+    # wybranie zaokraglenia
+    cmpl $1, 24(%ebp)
+    je round_c
+    cmpl $2, 24(%ebp)
+    je round_u
+    cmpl $3, 24(%ebp)
+    je round_d
+    cmpl $4, 24(%ebp)
+    je round_n
+
 
 
 .global square_root
 square_root:
-    # prolog
+    # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
 
-    # funkcja
+    # pierwiastek
     fldl 8(%ebp)
     fsqrt
 
-    #epilog
+    # wybranie zaokraglenia
+    cmpl $1, 16(%ebp)
+    je round_c
+    cmpl $2, 16(%ebp)
+    je round_u
+    cmpl $3, 16(%ebp)
+    je round_d
+    cmpl $4, 16(%ebp)
+    je round_n
+
+
+
+.global sinus
+sinus:
+    # poczatek funkcji
+    pushl %ebp
+    movl %esp, %ebp
+
+    # sinus
+    fldl 8(%ebp)
+    fsin
+
+    # wybranie zaokraglenia
+    cmpl $1, 16(%ebp)
+    je round_c
+    cmpl $2, 16(%ebp)
+    je round_u
+    cmpl $3, 16(%ebp)
+    je round_d
+    cmpl $4, 16(%ebp)
+    je round_n
+
+
+
+
+round_c:
+    fldcw round_cut      # zaladowanie do slowa kontrolnego
+
+    #koniec funkcji
     movl %ebp, %esp
     popl %ebp
     ret
 
 
-.global sinus
-sinus:
-    # prolog
-    pushl %ebp
-    movl %esp, %ebp
+round_u:
+    fldcw round_up       # zaladowanie do slowa kontrolnego
 
-    # funkcja
-    fldl 8(%ebp)
-    fsin
+    #koniec funkcji
+    movl %ebp, %esp
+    popl %ebp
+    ret
 
-    #epilog
+
+round_d:
+    fldcw round_down     # zaladowanie do slowa kontrolnego
+
+    #koniec funkcji
+    movl %ebp, %esp
+    popl %ebp
+    ret
+
+
+round_n:
+    fldcw round_nearest  # zaladowanie do slowa kontrolnego
+
+    #koniec funkcji
     movl %ebp, %esp
     popl %ebp
     ret
