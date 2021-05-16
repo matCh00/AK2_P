@@ -1,4 +1,7 @@
 # AK2_P
 
-kalkulator wykonujący dodawanie, odejmowanie, mnożenie, dzielenie
-i inne funkcje
+### Kalkulator wielofunkcyjny liczb zmiennoprzecinkowych
+
+#### funkcje:  dodawanie, odejmowanie, mnożenie, dzielenie, pierwiastkowanie, sinus
+#### sposoby zaokrąglania wyniku:  obcięcie, w górę, w dół, do najbliższej
+
