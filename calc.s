@@ -144,6 +144,36 @@ sinus:
 
 
 
+.global power
+power:
+    # poczatek funkcji
+    pushl %ebp
+    movl %esp, %ebp
+
+    # dodawanie
+    fldl 8(%ebp)
+    fldl 16(%ebp)
+    fyl2x
+    # to juz nic nie robi
+    fld1
+    fld %ST(1)
+    fprem
+    f2xm1
+    faddp
+    fscale
+    fstp %ST(0)
+
+    # wybranie zaokraglenia
+    cmpl $1, 24(%ebp)
+    je round_c
+    cmpl $2, 24(%ebp)
+    je round_u
+    cmpl $3, 24(%ebp)
+    je round_d
+    cmpl $4, 24(%ebp)
+    je round_n
+
+
 
 round_c:
     fldcw round_cut      # zaladowanie do slowa kontrolnego
