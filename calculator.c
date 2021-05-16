@@ -51,10 +51,17 @@ int main() {
       scanf("%d", &r);
 
 
+
       switch(key) {
 
           case 1:
           {
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               result = addition(a, b, r);
               printf("Suma: %f\n", result);
               break;
@@ -62,6 +69,12 @@ int main() {
 
           case 2:
           {
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               result = subtraction(a, b, r);
               printf("Roznica: %f\n", result);
               break;
@@ -69,6 +82,12 @@ int main() {
 
           case 3:
           {
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               result = multiplication(a, b, r);
               printf("Iloczyn: %f\n", result);
               break;
@@ -76,6 +95,12 @@ int main() {
 
           case 4:
           {
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               if(b != 0)
               {
                   result = division(a, b, r);
@@ -90,6 +115,12 @@ int main() {
 
           case 5:
           {
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               if(a >= 0)
               {
                 result = square_root(a, r);
