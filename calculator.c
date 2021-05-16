@@ -34,6 +34,7 @@ int main() {
       printf("4. Dzielenie\n");
       printf("5. Pierwiastek\n");
       printf("6. Sinus\n");
+      printf("7. Cosinus\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -137,6 +138,13 @@ int main() {
           {
               result = sinus(a, r);
               printf("Sinus: %f\n", result);
+              break;
+          }
+
+          case 7:
+          {
+              result = 1 - sinus(a, r);
+              printf("Cosinus: %f\n", result);
               break;
           }
 
