@@ -156,7 +156,7 @@ power:
     fyl2x
     # to juz nic nie robi
     fld1
-    fld %ST(1)
+    fld %ST(0)
     fprem
     f2xm1
     faddp
