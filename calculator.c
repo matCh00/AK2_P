@@ -8,7 +8,7 @@ double multiplication(double a, double b, int r);
 double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
-//double power(double a, double b, int r);
+double power(double a, double b, int r);
 
 // zmienne
 double a = 0.0f;
@@ -36,7 +36,7 @@ int main() {
       printf("5. Pierwiastek\n");
       printf("6. Sinus\n");
       printf("7. Cosinus\n");
-      //printf("8. Potega\n");
+      printf("8. Potega\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -150,12 +150,12 @@ int main() {
               break;
           }
 
-          //case 8:
-          //{
-          //    result = power(a, b, r);
-          //    printf("Potega: %f\n", result);
-          //    break;
-          //}
+          case 8:
+          {
+              result = power(a, b, r);
+              printf("Potega: %f\n", result);
+              break;
+          }
 
           default:
               printf("Nie ma takiej opcji\n");

@@ -150,18 +150,23 @@ power:
     pushl %ebp
     movl %esp, %ebp
 
-    # dodawanie
-    fldl 8(%ebp)
+    # potegowanie
     fldl 16(%ebp)
+    fldl 8(%ebp)
     fyl2x
-    # to juz nic nie robi
-    fld1
-    fld %ST(0)
-    fprem
+
+    fld %ST
+    frndint
+    fsub %ST, %ST(1)
+    fxch %ST(1)
     f2xm1
+    fld1
     faddp
     fscale
-    fstp %ST(0)
+    fstp %ST(1)
+
+
+
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
