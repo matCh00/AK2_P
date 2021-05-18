@@ -150,7 +150,7 @@ power:
     pushl %ebp
     movl %esp, %ebp
 
-    # potegowanie
+    # potegowanie - nie do koca dziala
     fldl 16(%ebp)
     fldl 8(%ebp)
     fyl2x
