@@ -154,10 +154,8 @@ power:
     #fldl 16(%ebp)
     #frndint
     #fstcw (%eax)
-
     #fldl 8(%ebp)
     #jmp mul_l
-
     #mul_l:
     #fldl 8(%ebp)
     #fmulp
@@ -165,7 +163,6 @@ power:
     #cmpl $0, %eax
     #jbe exi
     #jmp mul_l
-
     #exi:
 
     # wybranie zaokraglenia
@@ -188,23 +185,20 @@ quadratic_equation:
 
     # rownanie kwadratowe
     #fld minusfour
-    fldl 8(%ebp)
-    fldl 24(%ebp)
-    fmulp
-    fmulp
-    fldl 16(%ebp)
-    fldl 16(%ebp)
-    fmulp
-    faddp
-    ftst
-    fstsw %ax
-    sahf
-    jb exit
-
-    fsqrt
-
-
-    exit:
+    #fldl 8(%ebp)
+    #fldl 24(%ebp)
+    #fmulp
+    #fmulp
+    #fldl 16(%ebp)
+    #fldl 16(%ebp)
+    #fmulp
+    #faddp
+    #ftst
+    #fstsw %ax
+    #sahf
+    #jb exit
+    #fsqrt
+    #exit:
 
     # wybranie zaokraglenia
     cmpl $1, 32(%ebp)

@@ -8,8 +8,8 @@ double multiplication(double a, double b, int r);
 double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
-double power(double a, double b, int r);
-double quadratic_equation(double a, double b, double c, int r);
+//double power(double a, double b, int r);
+//double quadratic_equation(double a, double b, double c, int r);
 
 // zmienne
 double a = 0.0f;
@@ -39,7 +39,7 @@ int main() {
       printf("6. Sinus\n");
       printf("7. Cosinus\n");
       printf("8. Potega\n");
-      //printf("9. Rownanie kwadratowe\n");
+      printf("9. Rownanie kwadratowe\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -53,8 +53,6 @@ int main() {
       scanf("%lf", &a);
       printf("Wpisz b: ");
       scanf("%lf", &b);
-      //printf("Wpisz c: ");
-      //scanf("%lf", &c);
       printf("Zaokraglanie: ");
       scanf("%d", &r);
 
@@ -167,9 +165,29 @@ int main() {
 
           case 9:
           {
-              result = quadratic_equation(a, b, c, r);
-              printf("Sinus: %f\n", result);
-              break;
+              printf("Wpisz c: ");
+              scanf("%lf", &c);
+              double result2 = 0.0f;
+              double delta = multiplication(b, b, r) - multiplication(4, multiplication(a, c, r), r);
+
+              if(delta < 0){
+                printf("Brak rozwizazan");
+                break;
+              }
+
+              if(delta == 0){
+                result = -(division(b, multiplication(2, a, r), r));
+                printf("Pierwiastek rownania kwadratowego: %f\n", result);
+                break;
+              }
+
+              if(delta > 0){
+                result = division((subtraction(-b, -square_root(delta, r), r)), multiplication(2, a, r), r);
+                result2 = division((addition(-b, -square_root(delta, r), r)), multiplication(2, a, r), r);
+                printf("Pierwiastki rownania kwadratowego: %f", result);
+                printf(" %f\n", result2);
+                break;
+              }
           }
 
           default:
