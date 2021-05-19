@@ -151,20 +151,22 @@ power:
     movl %esp, %ebp
 
     # potegowanie - nie do koca dziala
-    mov 16(%ebp), %eax
+    #fldl 16(%ebp)
+    #frndint
+    #fstcw (%eax)
 
-    fldl 8(%ebp)
-    jmp mul_l
-
-    mul_l:
-    fldl 8(%ebp)
-    fmulp
-    dec %eax
-    cmpl $0, %eax
-    jbe end
+    #fldl 8(%ebp)
     #jmp mul_l
 
-    end:
+    #mul_l:
+    #fldl 8(%ebp)
+    #fmulp
+    #decl %eax
+    #cmpl $0, %eax
+    #jbe exi
+    #jmp mul_l
+
+    #exi:
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
