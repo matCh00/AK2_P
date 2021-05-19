@@ -9,10 +9,12 @@ double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
 double power(double a, double b, int r);
+double quadratic_equation(double a, double b, double c, int r);
 
 // zmienne
 double a = 0.0f;
 double b = 0.0f;
+double c = 0.0f;
 int r = 0;
 double result = 0.0f;
 
@@ -37,6 +39,7 @@ int main() {
       printf("6. Sinus\n");
       printf("7. Cosinus\n");
       printf("8. Potega\n");
+      //printf("9. Rownanie kwadratowe\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -50,6 +53,8 @@ int main() {
       scanf("%lf", &a);
       printf("Wpisz b: ");
       scanf("%lf", &b);
+      //printf("Wpisz c: ");
+      //scanf("%lf", &c);
       printf("Zaokraglanie: ");
       scanf("%d", &r);
 
@@ -154,6 +159,13 @@ int main() {
           {
               result = power(a, b, r);
               printf("Potega: %f\n", result);
+              break;
+          }
+
+          case 9:
+          {
+              result = quadratic_equation(a, b, c, r);
+              printf("Sinus: %f\n", result);
               break;
           }
 

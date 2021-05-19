@@ -151,22 +151,20 @@ power:
     movl %esp, %ebp
 
     # potegowanie - nie do koca dziala
-    fldl 16(%ebp)
+    mov 16(%ebp), %eax
+
     fldl 8(%ebp)
-    fyl2x
+    jmp mul_l
 
-    fld %ST
-    frndint
-    fsub %ST, %ST(1)
-    fxch %ST(1)
-    f2xm1
-    fld1
-    faddp
-    fscale
-    fstp %ST(1)
+    mul_l:
+    fldl 8(%ebp)
+    fmulp
+    dec %eax
+    cmpl $0, %eax
+    jbe end
+    #jmp mul_l
 
-
-
+    end:
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
@@ -176,6 +174,44 @@ power:
     cmpl $3, 24(%ebp)
     je round_d
     cmpl $4, 24(%ebp)
+    je round_n
+
+
+
+.global quadratic_equation
+quadratic_equation:
+    # poczatek funkcji
+    pushl %ebp
+    movl %esp, %ebp
+
+    # rownanie kwadratowe
+    #fld minusfour
+    fldl 8(%ebp)
+    fldl 24(%ebp)
+    fmulp
+    fmulp
+    fldl 16(%ebp)
+    fldl 16(%ebp)
+    fmulp
+    faddp
+    ftst
+    fstsw %ax
+    sahf
+    jb exit
+
+    fsqrt
+
+
+    exit:
+
+    # wybranie zaokraglenia
+    cmpl $1, 32(%ebp)
+    je round_c
+    cmpl $2, 32(%ebp)
+    je round_u
+    cmpl $3, 32(%ebp)
+    je round_d
+    cmpl $4, 32(%ebp)
     je round_n
 
 
