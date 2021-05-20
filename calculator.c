@@ -156,7 +156,18 @@ int main() {
 
           case 8:
           {
-              result = power(a, b, r);
+              if(b == 0){
+                result = 1;
+              }
+
+              if(b == 1){
+                result = a;
+              }
+
+              if(b > 1){
+                result = power(a, b, r);
+              }
+
               printf("Potega: %f\n", result);
               break;
           }
