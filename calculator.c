@@ -8,7 +8,7 @@ double multiplication(double a, double b, int r);
 double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
-//double power(double a, double b, int r);
+double power(double a, double b, int r);
 //double quadratic_equation(double a, double b, double c, int r);
 
 // zmienne
@@ -48,7 +48,8 @@ int main() {
         break;
 
       // wprowadzenie liczb
-      printf("\n(Dla pierwiastka i sinusa rozpatrywane jest a)\nSposoby zaokraglania: 1-cut  2-up  3-down  4-nearest\n\n");
+      printf("\n(Dla pierwiastka i sinusa rozpatrywane jest a, dla potegowania b jest calkowite i wieksze od 0)");
+      printf("\nSposoby zaokraglania: 1-cut  2-up  3-down  4-nearest\n\n");
       printf("Wpisz a: ");
       scanf("%lf", &a);
       printf("Wpisz b: ");
@@ -155,10 +156,7 @@ int main() {
 
           case 8:
           {
-              result = 1;
-              for (int i=0; i<b; i++){
-                result = multiplication(a, result, r);
-              }
+              result = power(a, b, r);
               printf("Potega: %f\n", result);
               break;
           }
@@ -168,7 +166,7 @@ int main() {
               printf("Wpisz c: ");
               scanf("%lf", &c);
               double result2 = 0.0f;
-              double delta = multiplication(b, b, r) - multiplication(4, multiplication(a, c, r), r);
+              double delta = power(b, 2, r) - multiplication(4, multiplication(a, c, r), r);
 
               if(delta < 0){
                 printf("Brak rozwizazan");

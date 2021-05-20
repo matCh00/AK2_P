@@ -3,7 +3,10 @@ round_cut: .short 0xC3F
 round_up: .short 0x83F
 round_down: .short 0x43F
 round_nearest: .short 0x03F
+msg: .ascii "petla\n\0"
 
+.bss
+.comm counter, 8
 
 .text
 
@@ -150,20 +153,23 @@ power:
     pushl %ebp
     movl %esp, %ebp
 
-    # potegowanie - nie do koca dziala
-    #fldl 16(%ebp)
-    #frndint
-    #fstcw (%eax)
-    #fldl 8(%ebp)
-    #jmp mul_l
-    #mul_l:
-    #fldl 8(%ebp)
-    #fmulp
-    #decl %eax
-    #cmpl $0, %eax
-    #jbe exi
-    #jmp mul_l
-    #exi:
+    // potegowanie
+    fldl 8(%ebp)
+    fldl 8(%ebp)
+    fldl 8(%ebp)
+    fldl 16(%ebp)
+    fistp counter
+    subl $0x00, counter
+    subl $0x01, counter
+
+    lp:
+    fmulp
+    subl $0x01, counter
+    jz ext
+    fldl 8(%ebp)
+    jmp lp
+
+    ext:
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
