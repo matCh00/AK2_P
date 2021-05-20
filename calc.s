@@ -3,7 +3,6 @@ round_cut: .short 0xC3F
 round_up: .short 0x83F
 round_down: .short 0x43F
 round_nearest: .short 0x03F
-msg: .ascii "petla\n\0"
 
 .bss
 .comm counter, 8
@@ -134,6 +133,28 @@ sinus:
     # sinus
     fldl 8(%ebp)
     fsin
+
+    # wybranie zaokraglenia
+    cmpl $1, 16(%ebp)
+    je round_c
+    cmpl $2, 16(%ebp)
+    je round_u
+    cmpl $3, 16(%ebp)
+    je round_d
+    cmpl $4, 16(%ebp)
+    je round_n
+
+
+
+.global cosinus
+cosinus:
+    # poczatek funkcji
+    pushl %ebp
+    movl %esp, %ebp
+
+    # cosinus
+    fldl 8(%ebp)
+    fcos
 
     # wybranie zaokraglenia
     cmpl $1, 16(%ebp)

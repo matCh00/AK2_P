@@ -8,6 +8,7 @@ double multiplication(double a, double b, int r);
 double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
+double cosinus(double a, int r);
 double power(double a, double b, int r);
 double quadratic_equation(double a, double b, int r);
 
@@ -149,7 +150,7 @@ int main() {
 
           case 7:
           {
-              result = 1 - sinus(a, r);
+              result = cosinus(a, r);
               printf("Cosinus: %f\n", result);
               break;
           }
