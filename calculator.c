@@ -9,7 +9,7 @@ double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
 double power(double a, double b, int r);
-//double quadratic_equation(double a, double b, double c, int r);
+double quadratic_equation(double a, double b, int r);
 
 // zmienne
 double a = 0.0f;
@@ -197,6 +197,13 @@ int main() {
                 printf(" %f\n", result2);
                 break;
               }
+          }
+
+          case 10:
+          {
+              result = quadratic_equation(a, b, r);
+              printf("Test: %f", result);
+              break;
           }
 
           default:
