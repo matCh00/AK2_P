@@ -4,6 +4,19 @@ round_up: .short 0x83F
 round_down: .short 0x43F
 round_nearest: .short 0x03F
 
+one: .int 1
+two: .int 2
+n: .int 1
+k: .int 2
+b: .int 1
+a: .float 2
+wynik: .double 0
+range: .float 0
+halfRange: .float 0
+currentValue: .float 0
+functionValue: .float 0
+finalValue: .float 0
+
 .bss
 .comm counter, 8
 
@@ -250,45 +263,88 @@ power:
 
 
 
-.global fibonacci
-fibonacci:
+.global integral
+integral:
     # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
     push %ebx
 
-    # fibonacci
-    cmpl $0, 8(%ebp)
-    je fib_zero
+    # integral
+    finit
+  	flds a
+  	filds b
+	  fsub %st, %st(1)
+  	fxch %st(1)
+	  fidiv k
+  	fstps range
+  	flds range
+  	fidiv two
+  	fstps halfRange
+  	fstp %st(0)
 
-    cmpl $1, 8(%ebp)
-    je fib_jeden
+  	flds a
+  	flds halfRange
+  	fadd %st(1), %st(0)
+  	fstps a
+  	fstp %st(0)
+  	mov $0, %edi
 
-    movl 8(%ebp), %edx
-    dec %edx
-    push %edx
-    call fibonacci
-    pop %edx
-    mov %eax, %ebx
+    loop:
+  	jmp value
 
-    dec %edx
-    push %edx
-    call fibonacci
-    pop %edx
-    add %ebx, %eax
-    jmp fib_end
+    cont:
+  	jmp function
 
-    fib_zero:
-    mov $0, %eax
-    jmp fib_end
+    cont1:
+	  flds functionValue
+	  fmul range
+  	flds finalValue
+  	fadd %st(0), %st(1)
+  	fxch %st(1)
+  	fstps finalValue
+  	fstp %st(0)
+  	inc %edi
+  	cmp k, %edi
+	  jl loop
+	  jmp koniec
 
-    fib_jeden:
-    mov $1, %eax
+    value:
+  	mov %edi, n
+  	filds n
+  	flds range
+  	fxch %st(1)
+  	fmul %st(0), %st(1)
+  	fstp %st(0)
+  	flds a
+  	fadd %st, %st(1)
+  	fxch %st(1)
+  	fstps currentValue
+  	fstp %st(0)
+  	jmp cont
 
-    fib_end:
-    pop %ebx
-    popl %ebp
-    ret
+    function:
+  	filds two
+  	flds currentValue
+  	fmul %st(0), %st(0)
+  	fsub %st(0), %st(1)
+  	fxch %st(1)
+  	fstps functionValue
+  	fstp %st(0)
+	  jmp cont1
+
+    koniec:
+	  flds finalValue
+
+    # wybranie zaokraglenia
+    cmpl $1, 24(%ebp)
+    je round_c
+    cmpl $2, 24(%ebp)
+    je round_u
+    cmpl $3, 24(%ebp)
+    je round_d
+    cmpl $4, 24(%ebp)
+    je round_n
 
 
 

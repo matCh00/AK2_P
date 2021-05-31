@@ -13,7 +13,7 @@ double tangens(double a, int r);
 double cotangens(double a, int r);
 double power(double a, double b, int r);
 double quadratic_equation(double a, double b, double c, int r);
-double fibonacci(unsigned long f);
+double integral(int nn, int kk, int bb, float aa, int r);
 
 // zmienne
 double a = 0.0f;
@@ -46,7 +46,7 @@ int main() {
       printf("9. Cotangens\n");
       printf("10. Potega\n");
       printf("11. Rownanie kwadratowe\n");
-      printf("12. Ciag Fibonacciego\n");
+      printf("12. Calka\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -56,7 +56,7 @@ int main() {
 
       // wprowadzenie liczb
       printf("\nDla pierwiastka i funkcji trygonometrycznych rozpatrywane jest a, ktore jest liczba a nie katem");
-      printf("\nDla potegowania b jest calkowite i wieksze od 0, dla ciagu Fibonacciego rozpatrywane jest a");
+      printf("\nDla potegowania b jest calkowite i wieksze od 0");
       printf("\nSposoby zaokraglania: 1-cut  2-up  3-down  4-nearest\n\n");
       printf("Wpisz a: ");
       scanf("%lf", &a);
@@ -223,11 +223,15 @@ int main() {
 
           case 12:
           {
-              unsigned long f, res;
-              printf("Wpisz f: ");
-              scanf("%lu", &f);
-              res = fibonacci(f);
-              printf("Pozycja %lu = %lu", f, res);
+              int nn, kk, bb;
+              float aa;
+              double res;
+
+              printf("Wpisz n, k, b, a: ");
+              scanf("%d %d %d %f", &nn, &kk, &bb, &aa);
+
+              res = integral(nn, kk, bb, aa, r);
+              printf("Calka: %f\n", res);
               break;
           }
 
