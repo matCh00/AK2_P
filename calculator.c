@@ -12,7 +12,8 @@ double cosinus(double a, int r);
 double tangens(double a, int r);
 double cotangens(double a, int r);
 double power(double a, double b, int r);
-double quadratic_equation(double a, double b, int r);
+double quadratic_equation(double a, double b, double c, int r);
+double fibonacci(unsigned long f);
 
 // zmienne
 double a = 0.0f;
@@ -45,6 +46,7 @@ int main() {
       printf("9. Cotangens\n");
       printf("10. Potega\n");
       printf("11. Rownanie kwadratowe\n");
+      printf("12. Ciag Fibonacciego\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -54,7 +56,7 @@ int main() {
 
       // wprowadzenie liczb
       printf("\nDla pierwiastka i funkcji trygonometrycznych rozpatrywane jest a, ktore jest liczba a nie katem");
-      printf("\nDla potegowania b jest calkowite i wieksze od 0");
+      printf("\nDla potegowania b jest calkowite i wieksze od 0, dla ciagu Fibonacciego rozpatrywane jest a");
       printf("\nSposoby zaokraglania: 1-cut  2-up  3-down  4-nearest\n\n");
       printf("Wpisz a: ");
       scanf("%lf", &a);
@@ -221,8 +223,11 @@ int main() {
 
           case 12:
           {
-              result = quadratic_equation(a, b, r);
-              printf("Test: %f", result);
+              unsigned long f, res;
+              printf("Wpisz f: ");
+              scanf("%lu", &f);
+              res = fibonacci(f);
+              printf("Pozycja %lu = %lu", f, res);
               break;
           }
 

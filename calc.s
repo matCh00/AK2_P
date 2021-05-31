@@ -250,27 +250,46 @@ power:
 
 
 
-.global quadratic_equation
-quadratic_equation:
+.global fibonacci
+fibonacci:
     # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
+    push %ebx
 
-    # proba wywolania istniejacych funkcji - niepowodzenie
-    fldl 8(%ebp)
-    fldl 16(%ebp)
-    fldl 24(%ebp)
-    call addition
+    # fibonacci
+    cmpl $0, 8(%ebp)
+    je fib_zero
 
-    # wybranie zaokraglenia
-    cmpl $1, 32(%ebp)
-    je round_c
-    cmpl $2, 32(%ebp)
-    je round_u
-    cmpl $3, 32(%ebp)
-    je round_d
-    cmpl $4, 32(%ebp)
-    je round_n
+    cmpl $1, 8(%ebp)
+    je fib_jeden
+
+    movl 8(%ebp), %edx
+    dec %edx
+    push %edx
+    call fibonacci
+    pop %edx
+    mov %eax, %ebx
+
+    dec %edx
+    push %edx
+    call fibonacci
+    pop %edx
+    add %ebx, %eax
+    jmp fib_end
+
+    fib_zero:
+    mov $0, %eax
+    jmp fib_end
+
+    fib_jeden:
+    mov $1, %eax
+
+    fib_end:
+    pop %ebx
+    popl %ebp
+    ret
+
 
 
 
