@@ -168,13 +168,59 @@ cosinus:
 
 
 
+.global tangens
+tangens:
+    # poczatek funkcji
+    pushl %ebp
+    movl %esp, %ebp
+
+    # tangens
+    fldl 8(%ebp)
+    fptan
+    fstp %ST
+
+    # wybranie zaokraglenia
+    cmpl $1, 16(%ebp)
+    je round_c
+    cmpl $2, 16(%ebp)
+    je round_u
+    cmpl $3, 16(%ebp)
+    je round_d
+    cmpl $4, 16(%ebp)
+    je round_n
+
+
+
+.global cotangens
+cotangens:
+    # poczatek funkcji
+    pushl %ebp
+    movl %esp, %ebp
+
+    # cotangens
+    fldl 8(%ebp)
+    fptan
+    fdivp
+
+    # wybranie zaokraglenia
+    cmpl $1, 16(%ebp)
+    je round_c
+    cmpl $2, 16(%ebp)
+    je round_u
+    cmpl $3, 16(%ebp)
+    je round_d
+    cmpl $4, 16(%ebp)
+    je round_n
+
+
+
 .global power
 power:
     # poczatek funkcji
     pushl %ebp
     movl %esp, %ebp
 
-    // potegowanie
+    # potegowanie
     fldl 8(%ebp)
     fldl 8(%ebp)
     fldl 8(%ebp)
@@ -210,7 +256,7 @@ quadratic_equation:
     pushl %ebp
     movl %esp, %ebp
 
-    // proba wywolania istniejacych funkcji - niepowodzenie
+    # proba wywolania istniejacych funkcji - niepowodzenie
     fldl 8(%ebp)
     fldl 16(%ebp)
     fldl 24(%ebp)
@@ -231,7 +277,7 @@ quadratic_equation:
 round_c:
     fldcw round_cut      # zaladowanie do slowa kontrolnego
 
-    #koniec funkcji
+    # koniec funkcji
     movl %ebp, %esp
     popl %ebp
     ret
@@ -240,7 +286,7 @@ round_c:
 round_u:
     fldcw round_up       # zaladowanie do slowa kontrolnego
 
-    #koniec funkcji
+    # koniec funkcji
     movl %ebp, %esp
     popl %ebp
     ret
@@ -249,7 +295,7 @@ round_u:
 round_d:
     fldcw round_down     # zaladowanie do slowa kontrolnego
 
-    #koniec funkcji
+    # koniec funkcji
     movl %ebp, %esp
     popl %ebp
     ret
@@ -258,7 +304,7 @@ round_d:
 round_n:
     fldcw round_nearest  # zaladowanie do slowa kontrolnego
 
-    #koniec funkcji
+    # koniec funkcji
     movl %ebp, %esp
     popl %ebp
     ret

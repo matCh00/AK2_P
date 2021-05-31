@@ -9,6 +9,8 @@ double division(double a, double b, int r);
 double square_root(double a, int r);
 double sinus(double a, int r);
 double cosinus(double a, int r);
+double tangens(double a, int r);
+double cotangens(double a, int r);
 double power(double a, double b, int r);
 double quadratic_equation(double a, double b, int r);
 
@@ -39,8 +41,10 @@ int main() {
       printf("5. Pierwiastek\n");
       printf("6. Sinus\n");
       printf("7. Cosinus\n");
-      printf("8. Potega\n");
-      printf("9. Rownanie kwadratowe\n");
+      printf("8. Tangens\n");
+      printf("9. Cotangens\n");
+      printf("10. Potega\n");
+      printf("11. Rownanie kwadratowe\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -49,7 +53,8 @@ int main() {
         break;
 
       // wprowadzenie liczb
-      printf("\n(Dla pierwiastka i sinusa rozpatrywane jest a, dla potegowania b jest calkowite i wieksze od 0)");
+      printf("\nDla pierwiastka i funkcji trygonometrycznych rozpatrywane jest a, ktore jest liczba a nie katem");
+      printf("\nDla potegowania b jest calkowite i wieksze od 0");
       printf("\nSposoby zaokraglania: 1-cut  2-up  3-down  4-nearest\n\n");
       printf("Wpisz a: ");
       scanf("%lf", &a);
@@ -157,6 +162,20 @@ int main() {
 
           case 8:
           {
+              result = tangens(a, r);
+              printf("Tangens: %f\n", result);
+              break;
+          }
+
+          case 9:
+          {
+              result = cotangens(a, r);
+              printf("Cotangens: %f\n", result);
+              break;
+          }
+
+          case 10:
+          {
               if(b == 0){
                 result = 1;
               }
@@ -173,7 +192,7 @@ int main() {
               break;
           }
 
-          case 9:
+          case 11:
           {
               printf("Wpisz c: ");
               scanf("%lf", &c);
@@ -200,7 +219,7 @@ int main() {
               }
           }
 
-          case 10:
+          case 12:
           {
               result = quadratic_equation(a, b, r);
               printf("Test: %f", result);
