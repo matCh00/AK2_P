@@ -13,14 +13,16 @@ double tangens(double a, int r);
 double cotangens(double a, int r);
 double power(double a, double b, int r);
 double quadratic_equation(double a, double b, double c, int r);
-double integral(int nn, int kk, int bb, float aa, int r);
+unsigned long fibonacci(long n);
 
 // zmienne
+int r = 0;
 double a = 0.0f;
 double b = 0.0f;
 double c = 0.0f;
-int r = 0;
 double result = 0.0f;
+long n = 0;
+unsigned long result_f = 0;
 
 
 int main() {
@@ -46,7 +48,7 @@ int main() {
       printf("9. Cotangens\n");
       printf("10. Potega\n");
       printf("11. Rownanie kwadratowe\n");
-      printf("12. Calka\n");
+      printf("12. Ciag Fibonacciego\n");
       printf("Wybierz opcje: ");
       scanf("%i", &key);
 
@@ -54,23 +56,18 @@ int main() {
       if(key == 0)
         break;
 
-      // wprowadzenie liczb
-      printf("\nDla pierwiastka i funkcji trygonometrycznych rozpatrywane jest a, ktore jest liczba a nie katem");
-      printf("\nDla potegowania b jest calkowite i wieksze od 0");
-      printf("\nSposoby zaokraglania: 1-cut  2-up  3-down  4-nearest\n\n");
-      printf("Wpisz a: ");
-      scanf("%lf", &a);
-      printf("Wpisz b: ");
-      scanf("%lf", &b);
-      printf("Zaokraglanie: ");
-      scanf("%d", &r);
-
-
 
       switch(key) {
 
           case 1:
           {
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Wpisz b: ");
+              scanf("%lf", &b);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
               // niewlasciwe zaokraglanie
               if(r > 4) {
                 printf("Nie ma takiej opcji zaokraglania\n");
@@ -84,6 +81,13 @@ int main() {
 
           case 2:
           {
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Wpisz b: ");
+              scanf("%lf", &b);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
               // niewlasciwe zaokraglanie
               if(r > 4) {
                 printf("Nie ma takiej opcji zaokraglania\n");
@@ -97,6 +101,13 @@ int main() {
 
           case 3:
           {
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Wpisz b: ");
+              scanf("%lf", &b);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
               // niewlasciwe zaokraglanie
               if(r > 4) {
                 printf("Nie ma takiej opcji zaokraglania\n");
@@ -110,6 +121,13 @@ int main() {
 
           case 4:
           {
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Wpisz b: ");
+              scanf("%lf", &b);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
               // niewlasciwe zaokraglanie
               if(r > 4) {
                 printf("Nie ma takiej opcji zaokraglania\n");
@@ -130,6 +148,11 @@ int main() {
 
           case 5:
           {
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
               // niewlasciwe zaokraglanie
               if(r > 4) {
                 printf("Nie ma takiej opcji zaokraglania\n");
@@ -150,6 +173,17 @@ int main() {
 
           case 6:
           {
+              printf("Wpisz a: (liczba a nie kat)");
+              scanf("%lf", &a);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               result = sinus(a, r);
               printf("Sinus: %f\n", result);
               break;
@@ -157,6 +191,17 @@ int main() {
 
           case 7:
           {
+              printf("Wpisz a: (liczba a nie kat)");
+              scanf("%lf", &a);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               result = cosinus(a, r);
               printf("Cosinus: %f\n", result);
               break;
@@ -164,13 +209,35 @@ int main() {
 
           case 8:
           {
-              result = tangens(a, r);
-              printf("Tangens: %f\n", result);
-              break;
+              printf("Wpisz a: (liczba a nie kat)");
+              scanf("%lf", &a);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
+                result = tangens(a, r);
+                printf("Tangens: %f\n", result);
+                break;
           }
 
           case 9:
           {
+              printf("Wpisz a: (liczba a nie kat)");
+              scanf("%lf", &a);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               result = cotangens(a, r);
               printf("Cotangens: %f\n", result);
               break;
@@ -178,6 +245,20 @@ int main() {
 
           case 10:
           {
+              printf("a^b\n");
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Wpisz b: (calkowite wieksze od 0)");
+              scanf("%lf", &b);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               if(b == 0){
                 result = 1;
               }
@@ -196,8 +277,22 @@ int main() {
 
           case 11:
           {
+              printf("ax^2 + bx + c\n");
+              printf("Wpisz a: ");
+              scanf("%lf", &a);
+              printf("Wpisz b: ");
+              scanf("%lf", &b);
               printf("Wpisz c: ");
               scanf("%lf", &c);
+              printf("Zaokraglanie: 1-cut  2-up  3-down  4-nearest ");
+              scanf("%d", &r);
+
+              // niewlasciwe zaokraglanie
+              if(r > 4) {
+                printf("Nie ma takiej opcji zaokraglania\n");
+                break;
+              }
+
               double result2 = 0.0f;
               double delta = power(b, 2, r) - multiplication(4, multiplication(a, c, r), r);
 
@@ -223,15 +318,17 @@ int main() {
 
           case 12:
           {
-              int nn, kk, bb;
-              float aa;
-              double res;
+              while (1) {
+                  printf("Wpisz n: (zakoncz dla liczby ujemnej) ");
+                  scanf("%lu", &n);
 
-              printf("Wpisz n, k, b, a: ");
-              scanf("%d %d %d %f", &nn, &kk, &bb, &aa);
+                  if (n < 0) {
+                    break;
+                  }
 
-              res = integral(nn, kk, bb, aa, r);
-              printf("Calka: %f\n", res);
+                  result_f = fibonacci(n);
+                  printf("%lu wyraz ciagu = %lu\n", n, result_f);
+              }
               break;
           }
 

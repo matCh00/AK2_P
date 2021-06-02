@@ -4,18 +4,6 @@ round_up: .short 0x83F
 round_down: .short 0x43F
 round_nearest: .short 0x03F
 
-one: .int 1
-two: .int 2
-n: .int 1
-k: .int 2
-b: .int 1
-a: .float 2
-wynik: .double 0
-range: .float 0
-halfRange: .float 0
-currentValue: .float 0
-functionValue: .float 0
-finalValue: .float 0
 
 .bss
 .comm counter, 8
@@ -30,9 +18,10 @@ addition:
     movl %esp, %ebp
 
     # dodawanie
+    finit
     fldl 8(%ebp)
     fldl 16(%ebp)
-    faddp
+    faddp  # dodawanie - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
@@ -53,9 +42,10 @@ subtraction:
     movl %esp, %ebp
 
     # odejmowanie
+    finit
     fldl 16(%ebp)
     fldl 8(%ebp)
-    fsubp
+    fsubp  # odejmowanie - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
@@ -76,9 +66,10 @@ multiplication:
     movl %esp, %ebp
 
     # mnozenie
+    finit
     fldl 8(%ebp)
     fldl 16(%ebp)
-    fmulp
+    fmulp  # mnozenie - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
@@ -99,9 +90,10 @@ division:
     movl %esp, %ebp
 
     # dzielenie
+    finit
     fldl 16(%ebp)
     fldl 8(%ebp)
-    fdivp
+    fdivp  # dzielenie - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 24(%ebp)
@@ -122,8 +114,9 @@ square_root:
     movl %esp, %ebp
 
     # pierwiastek
+    finit
     fldl 8(%ebp)
-    fsqrt
+    fsqrt  # pierwiastek - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 16(%ebp)
@@ -144,8 +137,9 @@ sinus:
     movl %esp, %ebp
 
     # sinus
+    finit
     fldl 8(%ebp)
-    fsin
+    fsin  # sinus - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 16(%ebp)
@@ -166,8 +160,9 @@ cosinus:
     movl %esp, %ebp
 
     # cosinus
+    finit
     fldl 8(%ebp)
-    fcos
+    fcos  # cosinus - wynik w st(0)
 
     # wybranie zaokraglenia
     cmpl $1, 16(%ebp)
@@ -188,8 +183,9 @@ tangens:
     movl %esp, %ebp
 
     # tangens
+    finit
     fldl 8(%ebp)
-    fptan
+    fptan  # mnozenie - wynik w st(0)
     fstp %ST
 
     # wybranie zaokraglenia
@@ -211,9 +207,10 @@ cotangens:
     movl %esp, %ebp
 
     # cotangens
+    finit
     fldl 8(%ebp)
-    fptan
-    fdivp
+    fptan  # tangens - wynik w st(1) i 1 w st(0)
+    fdivp  # podzielenie 1 przez tangens = cotangens
 
     # wybranie zaokraglenia
     cmpl $1, 16(%ebp)
@@ -234,17 +231,18 @@ power:
     movl %esp, %ebp
 
     # potegowanie
+    finit
     fldl 8(%ebp)
     fldl 8(%ebp)
     fldl 8(%ebp)
     fldl 16(%ebp)
-    fistp counter
+    fistp counter  # zapisz st(0) w zmiennej counter
     subl $0x00, counter
     subl $0x01, counter
 
     lp:
-    fmulp
-    subl $0x01, counter
+    fmulp   # mnozenie - wynik w st(0)
+    subl $0x01, counter  # dekrementacja licznika
     jz ext
     fldl 8(%ebp)
     jmp lp
@@ -262,89 +260,48 @@ power:
     je round_n
 
 
-
-.global integral
-integral:
+.global fibonacci
+fibonacci:
     # poczatek funkcji
-    pushl %ebp
-    movl %esp, %ebp
+    push %ebp
+    mov %esp, %ebp
     push %ebx
 
-    # integral
-    finit
-  	flds a
-  	filds b
-	  fsub %st, %st(1)
-  	fxch %st(1)
-	  fidiv k
-  	fstps range
-  	flds range
-  	fidiv two
-  	fstps halfRange
-  	fstp %st(0)
+    # fibonacci
+    cmpl $0, 8(%ebp)   # sprawdzenie czy to nie pierwszy wyraz cigu
+    je zero_f
 
-  	flds a
-  	flds halfRange
-  	fadd %st(1), %st(0)
-  	fstps a
-  	fstp %st(0)
-  	mov $0, %edi
+    cmpl $1, 8(%ebp)   # sprawdzenie czy to nie drugi wyraz cigu
+    je one_f
 
-    loop:
-  	jmp value
+    movl 8(%ebp), %edx
+    dec %edx
+    push %edx
+    call fibonacci   # rekurencja
+    pop %edx
+    mov %eax, %ebx
 
-    cont:
-  	jmp function
+    dec %edx
+    push %edx
+    call fibonacci   # rekurencja
+    add $4, %esp
+    add %ebx, %eax
+    jmp exit_f
 
-    cont1:
-	  flds functionValue
-	  fmul range
-  	flds finalValue
-  	fadd %st(0), %st(1)
-  	fxch %st(1)
-  	fstps finalValue
-  	fstp %st(0)
-  	inc %edi
-  	cmp k, %edi
-	  jl loop
-	  jmp koniec
+    # pierwsza liczba ciagu
+    zero_f:
+    mov $0, %eax
+    jmp exit_f
 
-    value:
-  	mov %edi, n
-  	filds n
-  	flds range
-  	fxch %st(1)
-  	fmul %st(0), %st(1)
-  	fstp %st(0)
-  	flds a
-  	fadd %st, %st(1)
-  	fxch %st(1)
-  	fstps currentValue
-  	fstp %st(0)
-  	jmp cont
+    # druga liczba ciagu
+    one_f:
+    mov $1, %eax
 
-    function:
-  	filds two
-  	flds currentValue
-  	fmul %st(0), %st(0)
-  	fsub %st(0), %st(1)
-  	fxch %st(1)
-  	fstps functionValue
-  	fstp %st(0)
-	  jmp cont1
-
-    koniec:
-	  flds finalValue
-
-    # wybranie zaokraglenia
-    cmpl $1, 24(%ebp)
-    je round_c
-    cmpl $2, 24(%ebp)
-    je round_u
-    cmpl $3, 24(%ebp)
-    je round_d
-    cmpl $4, 24(%ebp)
-    je round_n
+    # koniec funkcji
+    exit_f:
+    pop %ebx
+    pop %ebp
+    ret
 
 
 
