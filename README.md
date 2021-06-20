@@ -1,6 +1,6 @@
 # AK2_P
 
-## Kalkulator wielofunkcyjny liczb zmiennoprzecinkowych
+## Kalkulator wielofunkcyjny liczb zmiennoprzecinkowych `do 80 bitów`
 
 + funkcje:
   - dodawanie
